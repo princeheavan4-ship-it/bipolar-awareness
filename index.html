@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Living With Bipolar — Understanding the Full Spectrum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0F1B2D;
+      --teal: #4ECDC4;
+      --amber: #F7B731;
+      --silver: #E8EDF2;
+      --slate: #6B7A8D;
+      --white: #FAFCFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--silver);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15,27,45,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(78,205,196,0.15);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--teal);
+      letter-spacing: 0.04em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--slate);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-canvas-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.18;
+    }
+    #moodWave {
+      width: 100%;
+      height: 320px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.12;
+      color: var(--white);
+      margin-bottom: 1.8rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--amber);
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--slate);
+      max-width: 560px;
+      margin: 0 auto 2.8rem;
+      font-weight: 300;
+    }
+    .hero-cta {
+      display: inline-flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: #3bbdb5;
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      border: 1.5px solid rgba(78,205,196,0.4);
+      color: var(--teal);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      border-color: var(--teal);
+      background: rgba(78,205,196,0.07);
+    }
+
+    /* WAVE DIVIDER */
+    .wave-stat-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background: rgba(255,255,255,0.03);
+      border-top: 1px solid rgba(78,205,196,0.1);
+      border-bottom: 1px solid rgba(78,205,196,0.1);
+      padding: 2.5rem 2rem;
+    }
+    .stat {
+      flex: 1;
+      max-width: 240px;
+      text-align: center;
+      padding: 0 2rem;
+      border-right: 1px solid rgba(78,205,196,0.1);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--slate);
+      line-height: 1.4;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+
+    /* SECTIONS */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 7rem 2rem;
+    }
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 1.4rem;
+    }
+    .section-body {
+      color: var(--slate);
+      font-size: 1.05rem;
+      max-width: 620px;
+      font-weight: 300;
+    }
+
+    /* WHAT IS BIPOLAR */
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+    .what-text p { color: var(--slate); font-weight: 300; margin-bottom: 1.2rem; }
+    .what-text p strong { color: var(--silver); font-weight: 500; }
+
+    .phases-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .phase {
+      padding: 1.6rem 2rem;
+      position: relative;
+    }
+    .phase-mania {
+      background: linear-gradient(135deg, rgba(247,183,49,0.12), rgba(247,183,49,0.05));
+      border-left: 3px solid var(--amber);
+    }
+    .phase-depression {
+      background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(78,205,196,0.03));
+      border-left: 3px solid var(--teal);
+    }
+    .phase-mixed {
+      background: linear-gradient(135deg, rgba(200,150,200,0.1), rgba(200,150,200,0.03));
+      border-left: 3px solid #c89ec8;
+    }
+    .phase-hypo {
+      background: linear-gradient(135deg, rgba(247,183,49,0.07), rgba(247,183,49,0.02));
+      border-left: 3px solid rgba(247,183,49,0.5);
+    }
+    .phase-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .phase-mania .phase-label { color: var(--amber); }
+    .phase-depression .phase-label { color: var(--teal); }
+    .phase-mixed .phase-label { color: #c89ec8; }
+    .phase-hypo .phase-label { color: rgba(247,183,49,0.7); }
+    .phase p { font-size: 0.9rem; color: var(--slate); font-weight: 300; }
+
+    /* TYPES */
+    #types { background: rgba(255,255,255,0.015); }
+    .types-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .type-card {
+      border: 1px solid rgba(78,205,196,0.12);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .type-card:hover {
+      border-color: rgba(78,205,196,0.35);
+      transform: translateY(-4px);
+    }
+    .type-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+    }
+    .type-card p { font-size: 0.9rem; color: var(--slate); font-weight: 300; line-height: 1.65; }
+    .type-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* VOICES */
+    .voices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .voice-card {
+      padding: 2rem;
+      border-top: 2px solid var(--teal);
+      background: rgba(78,205,196,0.04);
+      border-radius: 0 0 6px 6px;
+    }
+    .voice-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--silver);
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+    .voice-attr {
+      font-size: 0.8rem;
+      color: var(--slate);
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    /* SUPPORT */
+    .support-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-top: 4rem;
+    }
+    .support-col h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .support-list {
+      list-style: none;
+    }
+    .support-list li {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(78,205,196,0.08);
+      color: var(--slate);
+      font-size: 0.95rem;
+      font-weight: 300;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+    .support-list li::before {
+      content: '→';
+      color: var(--teal);
+      flex-shrink: 0;
+      margin-top: 0.05em;
+    }
+
+    /* CRISIS */
+    .crisis-band {
+      background: linear-gradient(135deg, rgba(247,183,49,0.08), rgba(247,183,49,0.02));
+      border: 1px solid rgba(247,183,49,0.25);
+      border-radius: 8px;
+      padding: 3rem;
+      margin: 0 2rem;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 5rem;
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .crisis-text { flex: 1; min-width: 260px; }
+    .crisis-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--amber);
+      margin-bottom: 0.8rem;
+    }
+    .crisis-text p { color: var(--slate); font-size: 0.95rem; font-weight: 300; }
+    .crisis-contacts { display: flex; flex-direction: column; gap: 1rem; }
+    .crisis-contact {
+      display: flex;
+      flex-direction: column;
+    }
+    .crisis-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--slate);
+      font-weight: 600;
+    }
+    .crisis-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--amber);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(78,205,196,0.1);
+      padding: 3rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--slate);
+      font-size: 0.95rem;
+    }
+    .footer-note {
+      font-size: 0.78rem;
+      color: rgba(107,122,141,0.6);
+      max-width: 440px;
+      text-align: right;
+    }
+
+    /* MOOD TRACKER TEASER */
+    .tracker-wrap {
+      margin-top: 4rem;
+      border: 1px dashed rgba(78,205,196,0.2);
+      border-radius: 8px;
+      padding: 2.5rem;
+      background: rgba(78,205,196,0.03);
+    }
+    .tracker-wrap h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .tracker-wrap p {
+      color: var(--slate);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .mood-scale {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .mood-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid rgba(78,205,196,0.2);
+      background: transparent;
+      color: var(--slate);
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .mood-btn:hover, .mood-btn.active {
+      background: rgba(78,205,196,0.15);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .mood-btn.high { border-color: rgba(247,183,49,0.3); }
+    .mood-btn.high:hover, .mood-btn.high.active {
+      background: rgba(247,183,49,0.12);
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .mood-note {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--slate);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .mood-note.show { opacity: 1; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .wave-stat-bar { flex-wrap: wrap; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(78,205,196,0.1); padding: 1.5rem; }
+      .what-grid, .support-cols { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: 4rem 1.5rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-note { text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Living With Bipolar</div>
+  <ul class="nav-links">
+    <li><a href="#what">Understanding</a></li>
+    <li><a href="#types">Types</a></li>
+    <li><a href="#support">Support</a></li>
+    <li><a href="#crisis">Crisis Help</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-canvas-wrap">
+    <svg id="moodWave" viewBox="0 0 1200 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#4ECDC4"/>
+          <stop offset="50%" stop-color="#F7B731"/>
+          <stop offset="100%" stop-color="#4ECDC4"/>
+        </linearGradient>
+      </defs>
+      <path id="wavePath" fill="none" stroke="url(#wg)" stroke-width="3"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">A resource for understanding, not defining</p>
+    <h1>Your mind moves<br/><em>between worlds</em><br/>you didn't choose.</h1>
+    <p class="hero-sub">Bipolar disorder is not a character flaw or a life sentence. It's a condition with patterns — and patterns can be understood, managed, and lived with fully.</p>
+    <div class="hero-cta">
+      <a href="#what" class="btn btn-primary">Understand the Spectrum</a>
+      <a href="#support" class="btn btn-outline">Find Support</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="wave-stat-bar">
+  <div class="stat">
+    <div class="stat-num">40M+</div>
+    <div class="stat-label">people worldwide live with bipolar disorder</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">10 yrs</div>
+    <div class="stat-label">average time to receive a correct diagnosis</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">80%</div>
+    <div class="stat-label">of people improve significantly with proper treatment</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1 in 40</div>
+    <div class="stat-label">adults in the US are affected in their lifetime</div>
+  </div>
+</div>
+
+<!-- WHAT IS BIPOLAR -->
+<section id="what">
+  <span class="section-eyebrow">Understanding bipolar disorder</span>
+  <h2 class="section-title">Not just mood swings.<br/>A full shift in how you experience reality.</h2>
+  <p class="section-body">Bipolar disorder involves distinct episodes that can last days to months — not the everyday emotional fluctuations everyone feels. Each phase has its own texture, and recognizing them is the first step toward care.</p>
+
+  <div class="what-grid">
+    <div class="what-text">
+      <p>During a <strong>manic episode</strong>, a person may feel invincible, sleep very little without feeling tired, think and speak rapidly, make impulsive decisions, or experience grandiosity. It can feel extraordinary — even euphoric — before it becomes overwhelming.</p>
+      <p>During a <strong>depressive episode</strong>, the weight can be immobilizing. Profound sadness, inability to concentrate, loss of interest in things once loved, and, in some cases, thoughts of self-harm or suicide.</p>
+      <p>Between episodes, many people function well. Bipolar disorder is not constant chaos — it's a pattern that, when understood, can be anticipated and managed.</p>
+    </div>
+
+    <div class="phases-visual">
+      <div class="phase phase-mania">
+        <div class="phase-label">Mania</div>
+        <p>Elevated energy, reduced sleep need, racing thoughts, risky behavior, elevated mood or irritability. Lasts at least 7 days.</p>
+      </div>
+      <div class="phase phase-hypo">
+        <div class="phase-label">Hypomania</div>
+        <p>A less severe form of mania — elevated mood, increased productivity. Less disruptive, but still a clinical state.</p>
+      </div>
+      <div class="phase phase-depression">
+        <div class="phase-label">Depression</div>
+        <p>Persistent low mood, fatigue, hopelessness, cognitive fog. Often the phase most commonly experienced over a lifetime.</p>
+      </div>
+      <div class="phase phase-mixed">
+        <div class="phase-label">Mixed Features</div>
+        <p>Simultaneous mania and depression — high energy paired with low mood. Often the most distressing presentation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPES -->
+<section id="types" style="background:rgba(255,255,255,0.015); max-width:100%; padding: 7rem 2rem;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <span class="section-eyebrow">The diagnostic landscape</span>
+    <h2 class="section-title">Bipolar isn't one thing.</h2>
+    <p class="section-body">The spectrum includes several distinct diagnoses, each with different patterns and treatment considerations.</p>
+
+    <div class="types-cards">
+      <div class="type-card">
+        <div class="type-icon">◈</div>
+        <h3>Bipolar I</h3>
+        <p>Defined by manic episodes lasting at least 7 days, or requiring hospitalization. Depressive episodes typically also occur. The most recognizable presentation, often with significant functional impact during episodes.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">◇</div>
+        <h3>Bipolar II</h3>
+        <p>Involves hypomanic episodes and major depressive episodes — but never full mania. Often misdiagnosed as depression alone, since hypomania can feel like "finally feeling normal." Depression is usually the dominant burden.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">◌</div>
+        <h3>Cyclothymia</h3>
+        <p>A milder, chronic pattern of hypomanic and depressive symptoms that don't fully meet criteria for either. Lasting at least 2 years, it still significantly affects relationships, work, and wellbeing.</p>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">◎</div>
+        <h3>Other Specified</h3>
+        <p>Bipolar patterns that don't fit neatly into the above categories — including rapid cycling (4+ episodes per year) or bipolar features triggered by substances or medical conditions.</p>
+      </div>
+    </div>
+
+    <!-- MOOD TRACKER TEASER -->
+    <div class="tracker-wrap">
+      <h3>How are you feeling today?</h3>
+      <p>Tracking mood is one of the most powerful tools in managing bipolar disorder. This is just a moment of check-in — not a diagnosis.</p>
+      <div class="mood-scale">
+        <button class="mood-btn high" onclick="selectMood(this, 'Very high — racing, elated, unstoppable')">10 — Very high</button>
+        <button class="mood-btn high" onclick="selectMood(this, 'Elevated mood, more energy than usual')">8 — Elevated</button>
+        <button class="mood-btn" onclick="selectMood(this, 'Slightly above baseline, feeling good')">6 — Good</button>
+        <button class="mood-btn" onclick="selectMood(this, 'Balanced, neutral, stable')">5 — Neutral</button>
+        <button class="mood-btn" onclick="selectMood(this, 'A bit low, less motivated than usual')">4 — Low</button>
+        <button class="mood-btn" onclick="selectMood(this, 'Noticeably down, energy is low')">2 — Very low</button>
+        <button class="mood-btn" onclick="selectMood(this, 'In a dark place. Please consider reaching out below.')">0 — Very dark</button>
+      </div>
+      <p class="mood-note" id="moodNote"></p>
+    </div>
+  </div>
+</section>
+
+<!-- VOICES -->
+<section id="voices">
+  <span class="section-eyebrow">Lived experience</span>
+  <h2 class="section-title">People who understand it from the inside.</h2>
+
+  <div class="voices-grid">
+    <div class="voice-card">
+      <p class="voice-quote">"For a long time I thought the mania was the real me — finally free. It took years to understand I deserved stability just as much as I deserved those highs."</p>
+      <span class="voice-attr">— Diagnosed at 24, Bipolar I</span>
+    </div>
+    <div class="voice-card">
+      <p class="voice-quote">"My depression was so heavy that doctors never looked for the other side. Being finally diagnosed with Bipolar II felt like someone had believed me for the first time."</p>
+      <span class="voice-attr">— Diagnosed at 31, Bipolar II</span>
+    </div>
+    <div class="voice-card">
+      <p class="voice-quote">"Medication isn't giving up. It's giving yourself a fair chance to be who you are without the disorder making all the decisions."</p>
+      <span class="voice-attr">— Living well with bipolar for 18 years</span>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support">
+  <span class="section-eyebrow">What actually helps</span>
+  <h2 class="section-title">There is no single right path.<br/>But there are real ones.</h2>
+  <p class="section-body">Effective management of bipolar disorder is usually a combination of approaches tailored over time. What works is deeply personal.</p>
+
+  <div class="support-cols">
+    <div class="support-col">
+      <h3>Clinical treatments</h3>
+      <ul class="support-list">
+        <li>Mood stabilizers (lithium, valproate, lamotrigine) — often the backbone of treatment</li>
+        <li>Atypical antipsychotics for acute mania or as maintenance</li>
+        <li>Antidepressants used carefully, often with a mood stabilizer, for depressive phases</li>
+        <li>Cognitive Behavioral Therapy (CBT) adapted for bipolar disorder</li>
+        <li>Interpersonal and Social Rhythm Therapy (IPSRT) — stabilizing daily routines</li>
+        <li>Family-focused therapy for strengthening support systems</li>
+        <li>ECT for severe, treatment-resistant depression or mania</li>
+      </ul>
+    </div>
+    <div class="support-col">
+      <h3>Daily self-management</h3>
+      <ul class="support-list">
+        <li>Consistent sleep and wake times — disrupted sleep is a major trigger</li>
+        <li>Mood journaling or apps to track patterns and early warning signs</li>
+        <li>Reducing or eliminating alcohol and recreational drugs</li>
+        <li>Regular physical activity, especially for depressive phases</li>
+        <li>Building a "wellness plan" with your care team for high-risk periods</li>
+        <li>Identifying personal triggers and creating protocols around them</li>
+        <li>Connecting with peer support groups — NAMI, DBSA, and others</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CRISIS BAND -->
+<div class="crisis-band" id="crisis">
+  <div class="crisis-text">
+    <h2>If you're in crisis right now</h2>
+    <p>You don't have to be alone in the darkest moments. These lines are staffed by people trained to listen and help — not to judge, not to lecture. Just to be there.</p>
+  </div>
+  <div class="crisis-contacts">
+    <div class="crisis-contact">
+      <span class="crisis-label">US — 988 Suicide & Crisis Lifeline</span>
+      <span class="crisis-number">Call or text 988</span>
+    </div>
+    <div class="crisis-contact">
+      <span class="crisis-label">Crisis Text Line (US)</span>
+      <span class="crisis-number">Text HOME to 741741</span>
+    </div>
+    <div class="crisis-contact">
+      <span class="crisis-label">International Association for Suicide Prevention</span>
+      <span class="crisis-number">iasp.info/resources/Crisis_Centres</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Living With Bipolar</div>
+  <p class="footer-note">This site is for informational and awareness purposes. It is not a substitute for professional medical advice, diagnosis, or treatment. If you are experiencing a mental health crisis, please contact a qualified professional or emergency services.</p>
+</footer>
+
+<script>
+  // Animated mood wave in hero
+  (function() {
+    const path = document.getElementById('wavePath');
+    let t = 0;
+    function animateWave() {
+      const W = 1200, H = 320, pts = 80;
+      let d = 'M';
+      for (let i = 0; i <= pts; i++) {
+        const x = (i / pts) * W;
+        const phase = (i / pts) * Math.PI * 4 + t;
+        // Second harmonic creates more complexity
+        const y = H/2 - Math.sin(phase) * 80 - Math.sin(phase * 1.7 + 1.2) * 30;
+        d += (i === 0 ? '' : ' L') + x.toFixed(1) + ',' + y.toFixed(1);
+      }
+      path.setAttribute('d', d);
+      t += 0.012;
+      requestAnimationFrame(animateWave);
+    }
+    animateWave();
+  })();
+
+  // Mood selector
+  function selectMood(btn, note) {
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const noteEl = document.getElementById('moodNote');
+    noteEl.textContent = note;
+    noteEl.classList.add('show');
+    // Special case for very dark
+    if (note.includes('dark place')) {
+      noteEl.style.color = '#F7B731';
+      noteEl.textContent += ' ↓ See crisis resources below.';
+    } else {
+      noteEl.style.color = '';
+    }
+  }
+</script>
+</body>
+</html>
